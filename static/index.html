@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claims Evidence Review Assistant</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 30px; background-color: #f4f6f8; color: #2d3748; }
+    .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h1 { color: #1a202c; margin-bottom: 5px; }
+    p.subtitle { color: #718096; margin-top: 0; margin-bottom: 25px; }
+    label { font-weight: 600; display: block; margin-top: 18px; color: #4a5568; }
+    select, textarea, button { width: 100%; margin-top: 8px; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e0; box-sizing: border-box; font-size: 14px; }
+    textarea { height: 160px; font-family: monospace; background-color: #f8fafc; }
+    
+    .file-input-wrapper { margin-top: 8px; position: relative; }
+    input[type="file"] { display: none; }
+    .custom-file-upload {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border: 2px dashed #cbd5e0;
+      border-radius: 6px;
+      background-color: #f8fafc;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .custom-file-upload:hover { border-color: #07bfd0; background-color: #ebf8ff; }
+    .file-upload-text { color: #4a5568; font-size: 14px; font-weight: 500; }
+    .file-browse-btn {
+      background-color: #000000;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .selected-file-info {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #2b6cb0;
+      font-weight: 600;
+      display: none;
+    }
+
+    .btn-audit { background-color: #109999; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 22px; font-size: 16px; transition: background 0.2s; }
+    .btn-audit:hover { background-color: #1c6464; }
+    
+    .btn-reset { background-color: #097e8e; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 22px; font-size: 16px; display: none; transition: background 0.2s; }
+    .btn-reset:hover { background-color: #124047; }
+
+    .report-card { margin-top: 30px; padding: 25px; border-radius: 8px; background: #f7fafc; border: 1px solid #e2e8f0; }
+    .report-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
+    .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; color: white; font-weight: bold; font-size: 14px; letter-spacing: 0.5px; }
+    .APPROVE { background-color: #38a169; }
+    .REJECT { background-color: #e53e3e; }
+    .REQUEST_INFO { background-color: #dd6b20; }
+    .ESCALATE { background-color: #805ad5; }
+
+    .section-title { font-size: 18px; font-weight: 700; color: #2d3748; margin-top: 25px; margin-bottom: 12px; border-left: 4px solid #3182ce; padding-left: 10px; }
+    
+    .discrepancy-card { background: #fff5f5; border: 1px solid #feb2b2; border-radius: 6px; padding: 15px; margin-bottom: 12px; }
+    .discrepancy-title { color: #9b2c2c; font-weight: bold; margin-bottom: 8px; }
+    .source-box { font-size: 13px; color: #742a2a; background: #fff; padding: 8px 12px; border-radius: 4px; margin-top: 6px; border: 1px dashed #feb2b2; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    th, td { padding: 12px 15px; text-align: left; font-size: 14px; }
+    th { background-color: #edf2f7; color: #4a5568; font-weight: 700; border-bottom: 2px solid #cbd5e0; }
+    tr { border-bottom: 1px solid #e2e8f0; }
+    tr:last-child { border-bottom: none; }
+    
+    .status-tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .status-SUPPORTED { background: #c6f6d5; color: #22543d; }
+    .status-VIOLATED { background: #fed7d7; color: #742a2a; }
+    .status-NOT_APPLICABLE { background: #edf2f7; color: #4a5568; }
+    
+    .citation { font-style: italic; color: #4a5568; font-size: 12px; margin-top: 4px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Claims Evidence Review Assistant</h1>
+
+    <div id="form-section">
+      <label for="sample-select">Select Preset Test Claim:</label>
+      <select id="sample-select">
+        <option value="">-- Choose a Preset Test Case --</option>
+      </select>
+
+      <label for="claim-data">Claim JSON Payload:</label>
+      <textarea id="claim-data" placeholder="Please select a preset test claim from the dropdown above or paste your custom claim JSON payload here..."></textarea>
+
+      <label>Attach PDF Evidence Document (Optional):</label>
+      <div class="file-input-wrapper">
+        <label for="pdf-file" class="custom-file-upload">
+          <span class="file-upload-text" id="file-label-text">Select a PDF file or drop it here</span>
+          <span class="file-browse-btn">Browse File</span>
+        </label>
+        <input type="file" id="pdf-file" accept="application/pdf">
+        <div id="file-info" class="selected-file-info"></div>
+      </div>
+
+      <button id="audit-btn" class="btn-audit" onclick="runAudit()">Audit Evidence</button>
+    </div>
+
+    <button id="reset-btn" class="btn-reset" onclick="resetForm()">Check New Case / Reset</button>
+
+    <div id="output" style="display:none;" class="report-card">
+      <div class="report-header">
+        <h2 style="margin:0;">Audit Decision</h2>
+        <span id="rec-badge" class="badge"></span>
+      </div>
+
+      <div class="section-title">Executive Summary</div>
+      <p id="summary-text" style="line-height: 1.6; color: #4a5568;"></p>
+
+      <div id="discrepancies-section" style="display:none;">
+        <div class="section-title">Detected Discrepancies & Contradictions</div>
+        <div id="discrepancies-container"></div>
+      </div>
+
+      <div class="section-title">Policy Rule-by-Rule Audit Report</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 15%;">Clause ID</th>
+            <th style="width: 15%;">Status</th>
+            <th style="width: 40%;">Reasoning</th>
+            <th style="width: 30%;">Citation</th>
+          </tr>
+        </thead>
+        <tbody id="policy-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    async function loadSampleCases() {
+      try {
+        const res = await fetch('/api/sample-cases');
+        const cases = await res.json();
+        const select = document.getElementById('sample-select');
+        select.innerHTML = '<option value="">-- Choose a Preset Test Case --</option>';
+        cases.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = JSON.stringify(c, null, 2);
+          opt.textContent = `${c.case_id}: ${c.title}`;
+          select.appendChild(opt);
+        });
+      } catch (e) {
+        console.error("Failed to load sample cases", e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSampleCases);
+
+    document.getElementById('sample-select').addEventListener('change', (e) => {
+      if (e.target.value) {
+        document.getElementById('claim-data').value = e.target.value;
+      } else {
+        document.getElementById('claim-data').value = '';
+      }
+    });
+
+    document.getElementById('pdf-file').addEventListener('change', function(e) {
+      const fileInfo = document.getElementById('file-info');
+      const labelText = document.getElementById('file-label-text');
+      if (this.files && this.files.length > 0) {
+        const fileName = this.files[0].name;
+        labelText.textContent = fileName;
+        fileInfo.style.display = 'block';
+        fileInfo.textContent = `Attached: ${fileName}`;
+      } else {
+        labelText.textContent = 'Select a PDF file or drop it here';
+        fileInfo.style.display = 'none';
+      }
+    });
+
+    async function runAudit() {
+      const claimJsonStr = document.getElementById('claim-data').value;
+      const fileInput = document.getElementById('pdf-file');
+      const auditBtn = document.getElementById('audit-btn');
+      
+      if (!claimJsonStr.trim()) {
+        alert("Please select or enter claim JSON payload!");
+        return;
+      }
+
+      auditBtn.disabled = true;
+      auditBtn.textContent = "Auditing Evidence via Gemini 3.5 Flash Lite...";
+
+      try {
+        let response;
+        if (fileInput.files.length > 0) {
+          const formData = new FormData();
+          formData.append('claim_json', claimJsonStr);
+          formData.append('document', fileInput.files[0]);
+
+          response = await fetch('/api/analyze-upload', {
+            method: 'POST',
+            body: formData
+          });
+        } else {
+          response = await fetch('/api/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ claim_package: JSON.parse(claimJsonStr) })
+          });
+        }
+
+        const data = await response.json();
+        renderReport(data);
+
+        auditBtn.style.display = 'none';
+        document.getElementById('reset-btn').style.display = 'block';
+
+      } catch (err) {
+        alert("Audit execution failed: " + err.message);
+        auditBtn.disabled = false;
+        auditBtn.textContent = "Audit Evidence";
+      }
+    }
+
+    function renderReport(report) {
+      document.getElementById('output').style.display = 'block';
+      
+      const badge = document.getElementById('rec-badge');
+      badge.textContent = report.recommendation;
+      badge.className = `badge ${report.recommendation}`;
+      
+      document.getElementById('summary-text').textContent = report.summary;
+      const discSection = document.getElementById('discrepancies-section');
+      const discContainer = document.getElementById('discrepancies-container');
+      discContainer.innerHTML = '';
+
+      if (report.discrepancies && report.discrepancies.length > 0) {
+        discSection.style.display = 'block';
+        report.discrepancies.forEach(d => {
+          const div = document.createElement('div');
+          div.className = 'discrepancy-card';
+          div.innerHTML = `
+            <div class="discrepancy-title">Discrepancy: ${d.issue}</div>
+            <div class="source-box"><strong>Source A:</strong> ${d.source_a}</div>
+            <div class="source-box"><strong>Source B:</strong> ${d.source_b}</div>
+          `;
+          discContainer.appendChild(div);
+        });
+      } else {
+        discSection.style.display = 'none';
+      }
+
+      const tbody = document.getElementById('policy-table-body');
+      tbody.innerHTML = '';
+
+      if (report.policy_audit && report.policy_audit.length > 0) {
+        report.policy_audit.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${p.clause_id}</strong></td>
+            <td><span class="status-tag status-${p.status}">${p.status}</span></td>
+            <td>${p.reasoning}</td>
+            <td><span class="citation">"${p.citation || 'N/A'}"</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="4">No policy rules evaluated.</td></tr>';
+      }
+
+      document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      document.getElementById('sample-select').selectedIndex = 0;
+      document.getElementById('claim-data').value = '';
+      
+      const fileInput = document.getElementById('pdf-file');
+      fileInput.value = '';
+      document.getElementById('file-label-text').textContent = 'Select a PDF file or drop it here';
+      document.getElementById('file-info').style.display = 'none';
+
+      document.getElementById('output').style.display = 'none';
+
+      const auditBtn = document.getElementById('audit-btn');
+      auditBtn.style.display = 'block';
+      auditBtn.disabled = false;
+      auditBtn.textContent = "Audit Evidence";
+
+      document.getElementById('reset-btn').style.display = 'none';
+
+      window.location.href = window.location.pathname;
+    }
+  </script>
+</body>
+</html>
