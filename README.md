@@ -1,3 +1,5 @@
+TRACK_ID=PS02
+
 # Claims Evidence Review Assistant (NexusTiQ 24)
 
 An automated, AI-powered insurance claims auditing system built with **FastAPI**, **Google Gemini**, and a custom web interface.
@@ -15,7 +17,7 @@ The **Claims Evidence Review Assistant** simplifies and accelerates the insuranc
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Multi-Modal Evidence Analysis:** Upload supporting medical documents (PDF format) directly alongside structured JSON claims.
 - **Pre-Loaded Sample Docs:** Located in `/sample_docs` for quick, zero-setup testing of PDF evidence uploads during evaluation.
