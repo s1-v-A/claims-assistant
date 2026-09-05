@@ -75,12 +75,11 @@ The **Claims Evidence Review Assistant** simplifies and accelerates the insuranc
 
 1. **Clone the repository:**
    git clone https://github.com/s1-v-A/claims-assistant.git
-
-   cd claim-evidence-review-assistant
+   cd claims-assistant
 
 2. **Set up a virtual environment:**
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   venv\Scripts\activate
 
 3. **Install dependencies:**
    pip install -r requirements.txt
