@@ -8,10 +8,8 @@ from google import genai
 from google.genai import types
 import pypdf
 
-# 1. Load environment variables from .env file BEFORE initializing Client
 load_dotenv()
 
-# 2. Initialize Gemini Client (automatically reads GEMINI_API_KEY from os.environ)
 client = genai.Client()
 
 class Discrepancy(BaseModel):
@@ -35,11 +33,7 @@ def extract_text_from_pdf(pdf_bytes: bytes) -> str:
     """Extracts clean text content from PDF binary data."""
     try:
         reader = pypdf.PdfReader(io.BytesIO(pdf_bytes))
-        text = ""
-        for page in reader.pages:
-            extracted = page.extract_text()
-            if extracted:
-                text += extracted + "\n"
+        text = "".join(page.extract_text() or "" for page in reader.pages)
         return text.strip()
     except Exception as e:
         return f"Error parsing PDF document: {str(e)}"
@@ -69,7 +63,7 @@ You are an expert insurance claims auditor. Evaluate the submitted claim package
 INSTRUCTIONS:
 1. Cross-examine all dates, locations, figures, and statements across all evidence.
 2. Identify any contradictions or factual discrepancies.
-3. Audit each relevant policy clause and determine if it is SUPPORTED or VIOLATED.
+3. Audit each relevant policy clause and determine if it is SUPPORTED, VIOLATED, or NOT_APPLICABLE.
 4. Provide a clear recommendation: APPROVE, REJECT, REQUEST_INFO, or ESCALATE.
 """
 
