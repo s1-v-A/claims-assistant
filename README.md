@@ -74,18 +74,18 @@ The **Claims Evidence Review Assistant** simplifies and accelerates the insuranc
 ### Installation
 
 1. **Clone the repository:**
-   git clone https://github.com/s1-v-A/claims-assistant.git
-   cd claims-assistant
+   - git clone https://github.com/s1-v-A/claims-assistant.git
+   - cd claims-assistant
 
 2. **Set up a virtual environment:**
-   python -m venv venv
-   venv\Scripts\activate
+   - python -m venv venv
+   - venv\Scripts\activate
 
 3. **Install dependencies:**
-   pip install -r requirements.txt
+   - pip install -r requirements.txt
 
 4. **Environment Setup:**
-   Create a .env file in the root directory and add your Gemini API key:
+   - Create a .env file in the root directory and add your Gemini API key: 
    GEMINI_API_KEY=api_key_here
 
 ---
