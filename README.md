@@ -105,6 +105,7 @@ The **Claims Evidence Review Assistant** simplifies and accelerates the insuranc
 
 ## Project Structure
 
+```
 claims-assistant/               <-- Parent Folder
 ├── data/                       <-- place for backend JSON rules/data
 │   ├── policy.json
@@ -118,7 +119,7 @@ claims-assistant/               <-- Parent Folder
 ├── app.py                      <-- FastAPI server entry point
 ├── README.md                   # Complete documentation
 └── requirements.txt            # Python dependencies
-
+```
 ---
 
 ## API Endpoints
