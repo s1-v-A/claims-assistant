@@ -1,6 +1,6 @@
 TRACK_ID=PS02
 
-# Claims Evidence Review Assistant (NexusTiQ 24)
+# Claims Evidence Review Assistant
 
 An automated, AI-powered insurance claims auditing system built with **FastAPI**, **Google Gemini**, and a custom web interface.
 
