@@ -1,0 +1,26 @@
+{
+  "policy_name": "Comprehensive Motor Insurance Policy Standards",
+  "version": "2026.1",
+  "clauses": [
+    {
+      "clause_id": "MIPC_01_TIMING",
+      "title": "Timely Reporting Requirement",
+      "rule": "All incidents, damages, or losses must be reported to the insurer within 7 days of occurrence."
+    },
+    {
+      "clause_id": "MIPC_02_THEFT",
+      "title": "Theft Claim Documentation",
+      "rule": "Total theft claims strictly require a First Information Report (FIR) filed with local police within 24 hours of discovery and submission of both original keys."
+    },
+    {
+      "clause_id": "MIPC_03_SAFETY",
+      "title": "Valid Driving License Requirement",
+      "rule": "The driver operating the vehicle at the time of the accident must hold an active, valid driving license."
+    },
+    {
+      "clause_id": "MIPC_04_EXCL",
+      "title": "Evidence Consistency",
+      "rule": "Incident date, location, and description stated across customer claims, police reports, and repair estimates must match without contradiction."
+    }
+  ]
+}

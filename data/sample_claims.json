@@ -1,0 +1,102 @@
+[
+  {
+    "case_id": "CASE-101",
+    "title": "Valid Accidental Damage Claim",
+    "policy_number": "POL-2026-9901",
+    "incident_date": "2026-02-10",
+    "claim_type": "Accidental Damage",
+    "claimed_amount": 14500,
+    "incident_description": "Vehicle struck a concrete barrier while avoiding a stray dog on Highway 4. Front bumper and radiator damaged.",
+    "submitted_documents": {
+      "repair_estimate": {
+        "date": "2026-02-11",
+        "amount": 14500,
+        "items": ["Front bumper assembly", "Radiator replacement", "Labor"]
+      },
+      "driver_license_valid": true,
+      "fir_filed": false
+    }
+  },
+  {
+    "case_id": "CASE-102",
+    "title": "Date Mismatch & Missing FIR (Theft)",
+    "policy_number": "POL-2026-4412",
+    "incident_date": "2026-01-15",
+    "claim_type": "Total Theft",
+    "claimed_amount": 350000,
+    "incident_description": "Vehicle stolen from parking lot overnight.",
+    "submitted_documents": {
+      "police_report": {
+        "date": "2026-01-28",
+        "reported_incident_date": "2026-01-20",
+        "fir_number": "FIR-88392"
+      },
+      "driver_license_valid": true,
+      "keys_submitted": 1
+    }
+  },
+  {
+    "case_id": "CASE-103",
+    "title": "Exclusion: DUI / Alcohol Influence Identified",
+    "policy_number": "POL-2026-8821",
+    "incident_date": "2026-02-18",
+    "claim_type": "Accidental Damage",
+    "claimed_amount": 82000,
+    "incident_description": "Vehicle skidded into a tree near City Center roundabout late at night.",
+    "submitted_documents": {
+      "police_report": {
+        "date": "2026-02-18",
+        "fir_number": "FIR-10922",
+        "officer_notes": "Driver breathalyzer test showed BAC of 0.08%. Cited for driving under influence."
+      },
+      "driver_license_valid": true,
+      "repair_estimate": {
+        "date": "2026-02-19",
+        "amount": 82000,
+        "items": ["Chassis realignment", "Hood replacement", "Headlight assembly"]
+      }
+    }
+  },
+  {
+    "case_id": "CASE-104",
+    "title": "Discrepancy: Inflated Repair Line Items",
+    "policy_number": "POL-2026-3004",
+    "incident_date": "2026-02-22",
+    "claim_type": "Accidental Damage",
+    "claimed_amount": 45000,
+    "incident_description": "Minor side-swipe collision in grocery store parking lot causing left rear door scrape.",
+    "submitted_documents": {
+      "repair_estimate": {
+        "date": "2026-02-23",
+        "amount": 45000,
+        "items": [
+          "Left rear door repaint",
+          "Full engine overhaul",
+          "Transmission fluid replacement"
+        ]
+      },
+      "surveyor_report": {
+        "notes": "Impact isolated strictly to left rear door panel. Mechanical systems completely untouched."
+      },
+      "driver_license_valid": true
+    }
+  },
+  {
+    "case_id": "CASE-105",
+    "title": "Policy Scope Violation: Commercial Ride-Share Usage",
+    "policy_number": "POL-2026-1190",
+    "incident_date": "2026-03-01",
+    "claim_type": "Accidental Damage",
+    "claimed_amount": 28000,
+    "incident_description": "Rear-ended at traffic signal while carrying paying passengers during Uber shift.",
+    "submitted_documents": {
+      "police_report": {
+        "date": "2026-03-01",
+        "fir_number": "FIR-33019",
+        "statement": "Insured vehicle was operating under commercial ride-sharing app with two fare-paying passengers onboard."
+      },
+      "policy_type": "Personal Private Car Policy",
+      "driver_license_valid": true
+    }
+  }
+]
